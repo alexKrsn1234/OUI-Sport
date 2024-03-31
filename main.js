@@ -15,10 +15,6 @@ export class Game {
         this.engine.runRenderLoop(() => {
             this.scene.render();
         });
-        // Handle window resizing
-        window.addEventListener("resize", function () {
-            this.engine.resize();
-        });
 
     }
 
@@ -46,3 +42,8 @@ export class Game {
 }
 
 const game = new Game(document.getElementById('game'));
+
+// Handle window resizing
+window.addEventListener("resize", function () {
+    game.engine.resize();
+});
