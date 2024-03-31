@@ -39,10 +39,11 @@ export class Game {
     
         // Create a sphere
         var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 10 }, scene);
-        var box = BABYLON.MeshBuilder.CreateBox("box",{size : 10}, )
+        var box = BABYLON.MeshBuilder.CreateBox("box",{size : 10}, scene)
         box.rotation.x=10;
         box.position.x=10;
         box.position.y=-5;
+
 
         // Create a ground
         var runGrd = BABYLON.MeshBuilder.CreateGround("runGrd", { width: 300, height: 300 }, scene);
@@ -85,8 +86,22 @@ CreateController(){
          camera.checkCollisions = true;
          camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
          camera.speed = 0.5;
-         camera.minY = 1;
          camera.angularSensibility = 4000;
+         camera.minZ=0.75;
+         camera.onAfterCheckInputsObservable.add(() => {
+            camera.cameraDirection.y = 0;
+        });
+        camera.keysUp.push(90);
+        camera.keysLeft.push(81);
+        camera.keysRight.push(68);
+        camera.keysDown.push(83);
+        this.addEventListener('keyup', event => {
+            if (event.code === 'Space') {
+              console.log('Space pressed')
+            }
+          })
+
+
 }
 }
 
