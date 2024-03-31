@@ -95,12 +95,7 @@ CreateController(){
         camera.keysLeft.push(81);
         camera.keysRight.push(68);
         camera.keysDown.push(83);
-        this.addEventListener('keyup', event => {
-            if (event.code === 'Space') {
-              console.log('Space pressed')
-            }
-          })
-
+        
 
 }
 }
