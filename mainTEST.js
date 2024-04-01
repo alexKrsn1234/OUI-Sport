@@ -2,7 +2,7 @@ import './game.css'
 import * as BABYLON from 'babylonjs';
 
 // Get the canvas element
-var canvas = document.getElementById("game");
+let canvas = document.getElementById("game");
 
 export class Game {
     constructor (canvas) {
@@ -20,7 +20,7 @@ export class Game {
 
     createScene = function () {
         // Create a basic Babylon scene
-        var scene = new BABYLON.Scene(this.engine);
+        let scene = new BABYLON.Scene(this.engine);
     
         scene.onPointerDown = (evt)=>{
             if(evt.button === 0) this.engine.enterPointerlock();
@@ -29,24 +29,24 @@ export class Game {
 
 
         // Create a light
-        var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+        let light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         light.intensity = 1;
     
         // Create a sphere
-        var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 10 }, scene);
+        let sphere = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 10 }, scene);
         
         // Create a ground
-        var runGrd = BABYLON.MeshBuilder.CreateGround("runGrd", { width: 300, height: 300 }, scene);
+        let runGrd = BABYLON.MeshBuilder.CreateGround("runGrd", { width: 300, height: 300 }, scene);
         runGrd.material = this.CreateGroundMaterial();
 
 
 
 
-        var grassGrd = BABYLON.MeshBuilder.CreateGround("Grassground", { width: 150, height: 150 }, scene);
+        let grassGrd = BABYLON.MeshBuilder.CreateGround("Grassground", { width: 150, height: 150 }, scene);
         grassGrd.material = this.CreateGrassGroundMaterial();
         grassGrd.position.y=0.1;
 
-        var box = BABYLON.MeshBuilder.CreateBox("box",{size : 10}, scene)
+        let box = BABYLON.MeshBuilder.CreateBox("box",{size : 10}, scene)
         box.position = new BABYLON.Vector3(0,10,0)
         scene.enablePhysics(
             new BABYLON.Vector3(0,-9.81, 0),
@@ -89,7 +89,7 @@ export class Game {
     }
 
 CreateController(){
-    var camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(-10, 10, 0), this.scene);
+    let camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(-10, 10, 0), this.scene);
          camera.attachControl();
          camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
          camera.speed = 0.5;

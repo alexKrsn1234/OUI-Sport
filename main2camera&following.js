@@ -12,10 +12,10 @@ import * as BABYLON from 'babylonjs';
 //
 
 // Get the canvas element
-var canvas = document.getElementById("game");
-var gravity = -9.81;
-var boxCord={x:10,y:-5,z:-5};
-var frameRate = 60;
+let canvas = document.getElementById("game");
+let gravity = -9.81;
+let boxCord={x:10,y:-5,z:-5};
+let frameRate = 60;
 
 export class Game {
     constructor (canvas) {
@@ -33,7 +33,7 @@ export class Game {
 
     createScene = function () {
         // Create a basic Babylon scene
-        var scene = new BABYLON.Scene(this.engine);
+        let scene = new BABYLON.Scene(this.engine);
     
         scene.onPointerDown = (evt)=>{
             if(evt.button === 0) this.engine.enterPointerlock();
@@ -43,13 +43,13 @@ export class Game {
 
 
         // Create a light
-        var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+        let light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         light.intensity = 1;
     
         // Create a sphere
-        var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 10 }, scene);
+        let sphere = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 10 }, scene);
         sphere.position.x=-10;
-        var box = BABYLON.MeshBuilder.CreateBox("box",{size : 10}, scene)
+        let box = BABYLON.MeshBuilder.CreateBox("box",{size : 10}, scene)
         box.rotation.x=10;
         box.position.x=10;
         box.position.y=-5;
@@ -76,9 +76,9 @@ export class Game {
         
 
         // Create a ground
-        var runGrd = BABYLON.MeshBuilder.CreateGround("runGrd", { width: 300, height: 300 }, scene);
+        let runGrd = BABYLON.MeshBuilder.CreateGround("runGrd", { width: 300, height: 300 }, scene);
         runGrd.material = this.CreateGroundMaterial();
-        var grassGrd = BABYLON.MeshBuilder.CreateGround("Grassground", { width: 150, height: 150 }, scene);
+        let grassGrd = BABYLON.MeshBuilder.CreateGround("Grassground", { width: 150, height: 150 }, scene);
         grassGrd.material = this.CreateGrassGroundMaterial();
         grassGrd.position.y=0.1;
 
@@ -108,7 +108,7 @@ export class Game {
     }
 
 CreateController(){
-    var camera = new BABYLON.ArcRotateCamera("camera", 0,0,10,new BABYLON.Vector3(0, 0, 0), this.scene);
+    let camera = new BABYLON.ArcRotateCamera("camera", 0,0,10,new BABYLON.Vector3(0, 0, 0), this.scene);
     camera.setPosition(new BABYLON.Vector3(1.5, 1.5, 10));
     camera.attachControl(canvas, true);
     camera.setTarget(new BABYLON.Vector3(boxCord.x-10, boxCord.y+10, boxCord.z));

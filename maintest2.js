@@ -19,7 +19,7 @@ import "@babylonjs/core/Materials/standardMaterial";
 export class FpsScene {
     constructor () {
         // Create a basic Babylon scene
-        var scene = new BABYLON.Scene(this.engine);
+        let scene = new BABYLON.Scene(this.engine);
     
         scene.onPointerDown = (evt)=>{
             if(evt.button === 0) this.engine.enterPointerlock();
@@ -33,21 +33,21 @@ export class FpsScene {
 
 
         // Create a light
-        var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+        let light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         light.intensity = 1;
     
         // Create a sphere
-        var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 10 }, scene);
-        var box = BABYLON.MeshBuilder.CreateBox("box",{size : 10}, scene)
+        let sphere = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 10 }, scene);
+        let box = BABYLON.MeshBuilder.CreateBox("box",{size : 10}, scene)
         box.rotation.x=10;
         box.position.x=10;
         box.position.y=-5;
 
 
         // Create a ground
-        var runGrd = BABYLON.MeshBuilder.CreateGround("runGrd", { width: 300, height: 300 }, scene);
+        let runGrd = BABYLON.MeshBuilder.CreateGround("runGrd", { width: 300, height: 300 }, scene);
         runGrd.material = this.CreateGroundMaterial();
-        var grassGrd = BABYLON.MeshBuilder.CreateGround("Grassground", { width: 150, height: 150 }, scene);
+        let grassGrd = BABYLON.MeshBuilder.CreateGround("Grassground", { width: 150, height: 150 }, scene);
         grassGrd.material = this.CreateGrassGroundMaterial();
         grassGrd.position.y=0.1;
 
@@ -57,7 +57,7 @@ export class FpsScene {
         scene.camera = this.CreateController();
 
         // Créer le player
-        var capsule = BABYLON.MeshBuilder.CreateCapsule("playerCollider", {height: 4, radius: 2, tessellation: 16}, scene);
+        let capsule = BABYLON.MeshBuilder.CreateCapsule("playerCollider", {height: 4, radius: 2, tessellation: 16}, scene);
 
 
         return scene;
