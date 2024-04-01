@@ -10,6 +10,7 @@ import { EnvironmentHelper } from "@babylonjs/core/Helpers/environmentHelper";
 // required imports
 import "@babylonjs/core/Loading/loadingScreen";
 import "@babylonjs/core/Materials/standardMaterial";
+import "@babylonjs/loaders";
 
 
 // digital assets
