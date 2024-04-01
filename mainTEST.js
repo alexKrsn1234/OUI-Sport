@@ -1,7 +1,6 @@
 import './game.css'
 import * as BABYLON from 'babylonjs';
-import * as CANNON from "cannon";
-// https://playground.babylonjs.com/#A584HZ#9 !!!!!!!!!!!!!!!
+
 // Get the canvas element
 var canvas = document.getElementById("game");
 
