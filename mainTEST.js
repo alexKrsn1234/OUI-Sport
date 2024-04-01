@@ -1,7 +1,7 @@
 import './game.css'
 import * as BABYLON from 'babylonjs';
-
-
+import * as CANNON from "cannon";
+// https://playground.babylonjs.com/#A584HZ#9 !!!!!!!!!!!!!!!
 // Get the canvas element
 var canvas = document.getElementById("game");
 
@@ -27,11 +27,6 @@ export class Game {
             if(evt.button === 0) this.engine.enterPointerlock();
             if(evt.button === 1) this.engine.exitPointerlock();
         }
-        
-        const framesPerSecond = 60;
-        const gravity = -9.81;
-        scene.gravity = new BABYLON.Vector3(0,gravity/framesPerSecond,0);
-        scene.collisionsEnabled = true;
 
 
         // Create a light
@@ -40,22 +35,36 @@ export class Game {
     
         // Create a sphere
         var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 10 }, scene);
-        var box = BABYLON.MeshBuilder.CreateBox("box",{size : 10}, scene)
-        box.rotation.x=10;
-        box.position.x=10;
-        box.position.y=-5;
-
-
+        
         // Create a ground
         var runGrd = BABYLON.MeshBuilder.CreateGround("runGrd", { width: 300, height: 300 }, scene);
         runGrd.material = this.CreateGroundMaterial();
+
+
+
+
         var grassGrd = BABYLON.MeshBuilder.CreateGround("Grassground", { width: 150, height: 150 }, scene);
         grassGrd.material = this.CreateGrassGroundMaterial();
         grassGrd.position.y=0.1;
 
-        runGrd.checkCollisions = true;
-        sphere.checkCollisions = true;
-        box.checkCollisions = true;
+        var box = BABYLON.MeshBuilder.CreateBox("box",{size : 10}, scene)
+        box.position = new BABYLON.Vector3(0,10,0)
+        scene.enablePhysics(
+            new BABYLON.Vector3(0,-9.81, 0),
+            new BABYLON.CannonJSPlugin(true, 10, CANNON)
+        );
+
+        runGrd.physicsImpostor = new BABYLON.PhysicsImpostor(
+            runGrd,
+            BABYLON.PhysicsImpostor.BoxImpostor,
+            {mass:0, restitution:0.5}
+        );
+        box.physicsImpostor = new BABYLON.PhysicsImpostor(
+            box,
+            BABYLON.PhysicsImpostor.BoxImpostor,
+            {mass:1, restitution:0}
+        );
+
         return scene;
     }
 
@@ -81,32 +90,32 @@ export class Game {
     }
 
 CreateController(){
-    var camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 10, 0), this.scene);
+    var camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(-10, 10, 0), this.scene);
          camera.attachControl();
-         camera.applyGravity = true;
-         camera.checkCollisions = true;
          camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
          camera.speed = 0.5;
          camera.angularSensibility = 8000;
          camera.minZ=0.75;
-         camera.onAfterCheckInputsObservable.add(() => {
-            camera.cameraDirection.y = 0;
-        });
-        camera.keysUp.push(90);
-        camera.keysLeft.push(81);
-        camera.keysRight.push(68);
-        camera.keysDown.push(83);
-        canvas.addEventListener("keydown", (event) => {
-            if (event.isComposing) {
-              return;
-            }
-            if (event.key === " "){
-            camera.cameraDirection.y += 5;
+        // camera.onAfterCheckInputsObservable.add(() => {
+        //    camera.cameraDirection.y = 0;
+        //});
+        //camera.keysUp.push(90);
+        //camera.keysLeft.push(81);
+        //camera.keysRight.push(68);
+        //camera.keysDown.push(83);
+        //camera.setPosition(new BABYLON.Vector3(this.scene.box.position.x, this.scene.box.position.y, this.scene.box.position.z));
+        // canvas.addEventListener("keydown", (event) => {
+        //     if (event.isComposing) {
+        //       return;
+        //     }
+        //     if (event.key === " "){
+        //    camera.cameraDirection.y += 5;
 
-                console.log("space");
-            }
+        //         console.log("space");
+        //     }
             
-          });
+        //  });
+
         
 }
 }
