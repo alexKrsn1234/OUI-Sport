@@ -1,9 +1,21 @@
 import './game.css'
 import * as BABYLON from 'babylonjs';
-import * as CANNON from "cannon";
-// https://playground.babylonjs.com/#A584HZ#9 !!!!!!!!!!!!!!!
+
+
+
+
+//
+//
+//  https://playground.babylonjs.com/#A584HZ#9
+//   avoir plusieurs caméra dans une scene
+//
+//
+
 // Get the canvas element
 var canvas = document.getElementById("game");
+var gravity = -9.81;
+var boxCord={x:10,y:-5,z:-5};
+var frameRate = 60;
 
 export class Game {
     constructor (canvas) {
@@ -27,6 +39,7 @@ export class Game {
             if(evt.button === 0) this.engine.enterPointerlock();
             if(evt.button === 1) this.engine.exitPointerlock();
         }
+        
 
 
         // Create a light
@@ -35,35 +48,40 @@ export class Game {
     
         // Create a sphere
         var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 10 }, scene);
+        sphere.position.x=-10;
+        var box = BABYLON.MeshBuilder.CreateBox("box",{size : 10}, scene)
+        box.rotation.x=10;
+        box.position.x=10;
+        box.position.y=-5;
+        box.position.z=-5;
+
+        const xSlide = new BABYLON.Animation("xSlide", "position.x", frameRate, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+        const keyFrames = [];
+        keyFrames.push({
+            frame: 0,
+            value: 10,
+        });
+        keyFrames.push({
+            frame: frameRate,
+            value: -10,
+        });
+        keyFrames.push({
+            frame: 2 * frameRate,
+            value: 2,
+        });
+        xSlide.setKeys(keyFrames);
+        box.animations.push(xSlide);
+        scene.beginAnimation(box, 0, 2 * frameRate, true);
+        console.log(box.position.x);
         
+
         // Create a ground
         var runGrd = BABYLON.MeshBuilder.CreateGround("runGrd", { width: 300, height: 300 }, scene);
         runGrd.material = this.CreateGroundMaterial();
-
-
-
-
         var grassGrd = BABYLON.MeshBuilder.CreateGround("Grassground", { width: 150, height: 150 }, scene);
         grassGrd.material = this.CreateGrassGroundMaterial();
         grassGrd.position.y=0.1;
 
-        var box = BABYLON.MeshBuilder.CreateBox("box",{size : 10}, scene)
-        box.position = new BABYLON.Vector3(0,10,0)
-        scene.enablePhysics(
-            new BABYLON.Vector3(0,-9.81, 0),
-            new BABYLON.CannonJSPlugin(true, 10, CANNON)
-        );
-
-        runGrd.physicsImpostor = new BABYLON.PhysicsImpostor(
-            runGrd,
-            BABYLON.PhysicsImpostor.BoxImpostor,
-            {mass:0, restitution:0.5}
-        );
-        box.physicsImpostor = new BABYLON.PhysicsImpostor(
-            box,
-            BABYLON.PhysicsImpostor.BoxImpostor,
-            {mass:1, restitution:0}
-        );
 
         return scene;
     }
@@ -90,33 +108,13 @@ export class Game {
     }
 
 CreateController(){
-    var camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(-10, 10, 0), this.scene);
-         camera.attachControl();
-         camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
-         camera.speed = 0.5;
-         camera.angularSensibility = 8000;
-         camera.minZ=0.75;
-        // camera.onAfterCheckInputsObservable.add(() => {
-        //    camera.cameraDirection.y = 0;
-        //});
-        //camera.keysUp.push(90);
-        //camera.keysLeft.push(81);
-        //camera.keysRight.push(68);
-        //camera.keysDown.push(83);
-        //camera.setPosition(new BABYLON.Vector3(this.scene.box.position.x, this.scene.box.position.y, this.scene.box.position.z));
-        // canvas.addEventListener("keydown", (event) => {
-        //     if (event.isComposing) {
-        //       return;
-        //     }
-        //     if (event.key === " "){
-        //    camera.cameraDirection.y += 5;
-
-        //         console.log("space");
-        //     }
-            
-        //  });
-
-        
+    var camera = new BABYLON.ArcRotateCamera("camera", 0,0,10,new BABYLON.Vector3(0, 0, 0), this.scene);
+    camera.setPosition(new BABYLON.Vector3(1.5, 1.5, 10));
+    camera.attachControl(canvas, true);
+    camera.setTarget(new BABYLON.Vector3(boxCord.x-10, boxCord.y+10, boxCord.z));
+    camera.alpha = 3;
+    camera.beta = 1.5
+    camera.radius = 10;
 }
 }
 

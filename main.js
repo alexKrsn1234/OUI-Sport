@@ -2,8 +2,18 @@ import './game.css'
 import * as BABYLON from 'babylonjs';
 
 
+
+
+//
+//
+//  https://playground.babylonjs.com/#A584HZ#9
+//   avoir plusieurs caméra dans une scene
+//
+//
+
 // Get the canvas element
 var canvas = document.getElementById("game");
+var gravity = -9.81;
 
 export class Game {
     constructor (canvas) {
@@ -29,7 +39,6 @@ export class Game {
         }
         
         const framesPerSecond = 60;
-        const gravity = -9.81;
         scene.gravity = new BABYLON.Vector3(0,gravity/framesPerSecond,0);
         scene.collisionsEnabled = true;
 
@@ -84,6 +93,7 @@ CreateController(){
     var camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 10, 0), this.scene);
          camera.attachControl();
          camera.applyGravity = true;
+         camera._needMoveForGravity = true
          camera.checkCollisions = true;
          camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
          camera.speed = 0.5;
@@ -97,16 +107,15 @@ CreateController(){
         camera.keysRight.push(68);
         camera.keysDown.push(83);
         canvas.addEventListener("keydown", (event) => {
-            if (event.isComposing) {
-              return;
-            }
-            if (event.key === " "){
+        if (event.isComposing) {
+            return;
+        }
+        if (event.key === " "){
             camera.cameraDirection.y += 5;
-
-                console.log("space");
-            }
+            console.log("space");
+        }
             
-          });
+  });
         
 }
 }
