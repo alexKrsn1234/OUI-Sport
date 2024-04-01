@@ -1,16 +1,6 @@
 import './game.css'
 import * as BABYLON from 'babylonjs';
-import FpsScene from './createBasicFPSScene.js'
-
-
-
-
-//
-//
-//  https://playground.babylonjs.com/#A584HZ#9
-//   avoir plusieurs caméra dans une scene
-//
-//
+import FpsScene from './createBasicFPSScene.js';
 
 // Get the canvas element
 let canvas = document.getElementById("game");
@@ -23,13 +13,15 @@ export class Game {
         // Load Babylon 3D engine
         this.engine = new BABYLON.Engine(canvas, true);
         // Call the createScene function
-        this.scene = this.FpsScene();
+        this.scene = new FpsScene();
         // Run the render loop
         this.engine.runRenderLoop(() => {
             this.scene.render();
         });
     }
 }
+
+const game = new Game(canvas);
 
 // Handle window resizing
 window.addEventListener("resize", function () {

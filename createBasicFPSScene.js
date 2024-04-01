@@ -16,7 +16,7 @@ import "@babylonjs/core/Materials/standardMaterial";
 // import controllerModel from "../../assets/glb/samsung-controller.glb";
 // import roomEnvironment from "../../assets/environment/room.env"
 
-export class FpsScene {
+export default class FpsScene {
     constructor () {
         // Create a basic Babylon scene
         let scene = new BABYLON.Scene(this.engine);
@@ -51,9 +51,13 @@ export class FpsScene {
         box.checkCollisions = true;
 
         // Créer le player
-        let capsule = BABYLON.MeshBuilder.CreateCapsule("playerCollider", {height: 4, radius: 2, tessellation: 16}, scene);
-        let camera = BABYLON.FreeCamera()
-
+        let player = BABYLON.MeshBuilder.CreateCapsule("playerCollider", {height: 4, radius: 2, tessellation: 16}, scene);
+        capsule.position = new Vector3(0, 0, 0);
+        let camera =  new BABYLON.FreeCamera("playerCamera", new BABYLON.Vector3(0, 0, 0), scene);
+        camera.parent = player;
+        camera.position = new Vector3(0, 2, 0);
+        player.position = new Vector3(5, 2, 10);
+        this.player = player;
 
         return scene;
     }
